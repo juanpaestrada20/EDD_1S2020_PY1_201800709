@@ -5,3 +5,8 @@ CONFIG -= qt
 
 SOURCES += \
         main.cpp
+
+HEADERS += \
+    ArbolJugadores.h \
+    ColaFichas.h \
+    ListaPunteos.h
