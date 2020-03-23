@@ -4,26 +4,21 @@
 #include <string>
 #include <stdio.h>
 #include <iostream>
+#include <ctime>
 #include <clocale>
+#include <fstream>
 
 using namespace std;
 
 class Ficha{
-private:
+public:
     string letra;
     int punteo;
-public:
     Ficha(string letra, int punteo){
         this->letra = letra;
         this->punteo = punteo;
     }
     Ficha(){}
-    string getLetra(){
-        return letra;
-    }
-    int getPunteo(){
-        return punteo;
-    }
 };
 
 class NodoCola{
@@ -50,7 +45,7 @@ class Cola{
 private:
     NodoCola *first;
     NodoCola *last;
-    Ficha *fichero[];
+    Ficha *fichero[94];
 public:
     Cola(){
         first = NULL;
@@ -83,6 +78,7 @@ public:
         int i = 0;
         int pos;
         bool libre[95];
+        srand(time(0));
         while (i<95) {
             libre[i] = false;
             if(i<12){
@@ -166,14 +162,47 @@ public:
         for(int j = 0; j < 95; j++){
             do{
                 pos = (rand() % 95);
+                while(pos < 0 || pos > 95){
+                    pos = (rand() % 95);
+                }
             }while(libre[pos]);
             desordenado[j] = fichero[pos];
+            cout << fichero[pos]->letra << endl;
             libre[pos]=true;
         }
         for(int l = 0; l < 95; l++){
             this->enColar(desordenado[l]);
         }
+
     }
+    void createGraph(){
+        int i = 0;
+        int j = 0;
+        NodoCola *temp = first;
+        ofstream fs("letters.dot");
+        fs << "digraph G{ " << endl;
+        fs << "rankdir = UD;" << endl;
+        fs << "node [margin=0 shape=box style=filled];" << endl;
+        while(temp != NULL){
+            fs << i << "[label=\""<< temp->getFicha()->letra <<" x " << temp->getFicha()->punteo << "pts\"];" << endl;
+            i++;
+            temp = temp->getSiguiente();
+        }
+        fs << endl;
+        temp = first;
+        while( j < 94){
+            fs << j+1 << " -> " << j << endl;
+            j++;
+            temp = temp->getSiguiente();
+        }
+        
+        fs << "}" << endl;
+        fs.close();
+        
+        system("dot -Tpng letters.dot -o letters.png");
+        system("display letters.png");
+    }
+
 };
 
 #endif // COLAFICHAS_H
