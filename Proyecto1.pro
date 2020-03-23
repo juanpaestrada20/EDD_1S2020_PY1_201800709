@@ -9,4 +9,5 @@ SOURCES += \
 HEADERS += \
     ArbolJugadores.h \
     ColaFichas.h \
+    ListaDobleDiccionario.h \
     ListaPunteos.h
