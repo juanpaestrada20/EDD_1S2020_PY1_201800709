@@ -105,12 +105,13 @@ public:
         }
         size++;
     }
-    void playerPointsGraph(){
+    void playerPointsGraph(string name){
         NodoLista *temp = cabeza;
         ofstream fs("playerPoints.dot");
         fs << "digraph G{ " << endl;
         fs << "rankdir = LR;" << endl;
         fs << "node [margin=0 shape=Mcircle fontcolor=white fillcolor=dodgerblue style=filled];" << endl;
+        fs << "label = \"Puntaje de: " << name << "\";" << endl;
         while(temp != NULL){
             if(temp->siguiente != 0){
                 fs << temp->punteo << "->";

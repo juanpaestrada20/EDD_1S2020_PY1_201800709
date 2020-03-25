@@ -10,4 +10,5 @@ HEADERS += \
     ArbolJugadores.h \
     ColaFichas.h \
     ListaDobleDiccionario.h \
+    ListaDobleFichasJugador.h \
     ListaPunteos.h

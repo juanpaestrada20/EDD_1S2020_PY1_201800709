@@ -7,6 +7,7 @@
 #include "ArbolJugadores.h"
 #include "ColaFichas.h"
 #include "ListaDobleDiccionario.h"
+#include "ListaDobleFichasJugador.h"
 
 using namespace std;
 
@@ -14,54 +15,61 @@ int main()
 {
 
     setlocale(LC_ALL,"Spanish");
-    ArbolJugadores *lista = new ArbolJugadores();
+    Cola *lista = new Cola();
+    FichasJugador *fichas = new FichasJugador();
     string dato = "";
     int opcion;
-    int points;
+    lista->crearFichas();
+    lista->createGraph();
+
     do{
         dato ="";
-        cout << "1. Ingresar jugador" << endl;
-        cout << "2. Ingresar puntos jugador" << endl;
-        cout << "3. ver puntos jugador" << endl;
-        cout << "4. ver mejores punteos" << endl;
+        cout << "1. obtener fichas" << endl;
+        cout << "2. cambiar Ficha" << endl;
+        cout << "3. Otra ficha" << endl;
+        cout << "4. colocar ficha" << endl;
         cin >> opcion;
         switch (opcion) {
         case 1:
-            cout << "ingresar nombre" << endl;
-            cin >> dato;
-            lista->insertNewPlayer(dato);
+        {
+            int a = 0;
+            while(a < 7){
+                fichas->getFichas(lista->desEnColar());
+                a++;
+            }
+            lista->createGraph();
+            fichas->graphHand("juan");
+        }
             break;
         case 2:
         {
-            cout << "ingrese nombre del jugador" << endl;
+            fichas->graphHand("juan");
+            cout << "Ingrese la letra " << endl;
             cin >> dato;
-            cout << "Ingrese sus puntos" << endl;
-            cin >> points;
-            Player *temp = lista->searchPlayer(dato);
-            if(temp == NULL){
-                cout << "No se encontro jugador" << endl;
-            }else{
-                temp->newPoints(points);
-            }
+            lista->enColar(fichas->colocarFicha(dato));
+            fichas->eliminarFicha(dato);
+            fichas->getFichas(lista->desEnColar());
+            lista->createGraph();
+            fichas->graphHand("juan");
         }
             break;
         case 3:
         {
-            cout << "ingrese nombre del jugador" << endl;
-            cin >> dato;
-            if(lista->searchPlayer(dato) == NULL){
-                cout << "No se encontro jugador" << endl;
-            }else{
-                lista->searchPlayer(dato)->getLista()->playerPointsGraph();
-            }
+            fichas->getFichas(lista->desEnColar());
+            lista->createGraph();
+            fichas->graphHand("juan");
         }
             break;
         case 4:
-            lista->getBestPoints()->bestPointsGraph();
+        {
+            fichas->graphHand("juan");
+            cin >> dato;
+            Ficha *temp = fichas->colocarFicha(dato);
+            cout << "se coloco la ficha: " << temp->letra << endl;
+        }
             break;
         }
     }while(opcion != 0);
-    lista->createGraphTree();
 
     int salis;
     cin >> salis;

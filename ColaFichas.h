@@ -45,11 +45,13 @@ class Cola{
 private:
     NodoCola *first;
     NodoCola *last;
+    int size;
     Ficha *fichero[94];
 public:
     Cola(){
         first = NULL;
         last = NULL;
+        size = 0;
         setlocale(LC_ALL,"Spanish");
     }
     void enColar(Ficha *ficha){
@@ -62,6 +64,7 @@ public:
             last->setSiguiente(temp);
             last=temp;
         }
+        size ++;
     }
     Ficha *desEnColar(){
         if(first == NULL){
@@ -71,6 +74,7 @@ public:
         else{
             NodoCola *temp = first;
             first = first->getSiguiente();
+            size--;
             return temp->getFicha();
         }
     }
@@ -190,7 +194,7 @@ public:
         }
         fs << endl;
         temp = first;
-        while( j < 94){
+        while( j < size-1){
             fs << j+1 << " -> " << j << endl;
             j++;
             temp = temp->getSiguiente();
